@@ -14,28 +14,21 @@ class UsersController extends Controller
 
 	public function getUsers(Request $request)
 	{
-		$order = $request->input('order.0.column') == 0 ? 1:$request->input('order.0.column');
-		
-		$datatable = new \App\DataTable(new User());
-		$datatable->sortable_columns = ['1' => 'name', '2' => 'email', '3' => 'created_at', '4' => 'updated_at'];
-		$datatable->order = $datatable->sortable_columns[$order];
-		$datatable->offset = $request->input('start');
-		$datatable->limit = $request->input('length');
-		$datatable->direction = $request->input('order.0.dir');
+		$datatable = new \App\DataTable(new User(), $request);
 
-		$datatable->total_records = User::count();
-		
-		if(empty($request->input('search.value'))){
-			$users = $datatable->orderColumnData();
-		}else{
-			$search = $request->input('search.value');
-			$users = $datatable->search($search, 'name', 'email');
-		}		
-		
-		$data = $this->tableFormatData($users);
-		$json_data = $datatable->flatten($data, $request->input('draw'));
+		// Columns that will be sortable in the datatable view
+		$datatable->setSortableColumns(['1' => 'name', '2' => 'email', '3' => 'created_at', '4' => 'updated_at']);
 
-		return response()->json($json_data);
+		// Records that will be dislayed in the datatable
+		$users = $datatable->getData('name', 'email');
+
+		// Convert records to array and format it based on the datatable js column array property
+		$formatted_data = $this->tableFormatData($users);
+
+		// Format response for datatable requirements
+		$users_data = $datatable->flatten($formatted_data);
+
+		return response()->json($users_data);
 	}
 
 	private function tableFormatData($users)
