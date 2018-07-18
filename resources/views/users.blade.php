@@ -5,9 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Laravel with Datatables - rafaelogic</title>
+
+  @if (App::environment('local'))
   <link href="{{url('/css/bootstrap.min.css')}}" rel="stylesheet">
   <link href="{{url('/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-  <link href="{{url('/css/mark.min.css')}}" rel="stylesheet">
+  
+  @else
+  <!-- Bootstrap core CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+  @endif
+
+  <link href="https://dl.dropbox.com/s/7u2aw574eb9hzph/mark.min.css" rel="stylesheet">
+
 
 </head>
 <body>
@@ -53,6 +63,7 @@
       @include('modals')
   </div>
 
+  @if (App::environment('local'))
   <script src="{{url('/js/jquery-3.3.1.js')}}"></script>
   <script src="{{url('/js/bootstrap.bundle.min.js')}}"></script>
   <script src="{{url('/js/mark.js')}}"></script>
@@ -61,8 +72,17 @@
   <script src="{{url('/js/pdf/vfs_fonts.js')}}"></script>
   <script src="{{url('/js/datatables/datatables.min.js')}}"></script>
   <script src="{{url('/js/datatables/datatables.mark.js')}}"></script>
+  @else
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.1/b-html5-1.5.2/b-print-1.5.2/fc-3.2.5/fh-3.1.4/r-2.2.2/rg-1.0.3/sl-1.2.6/datatables.min.js"></script>  
+  <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.js"></script>  
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/g/mark.js(jquery.mark.min.js),datatables.mark.js"></script>
+  @endif
 
-  <script src="{{url('/js/app.js')}}"></script>
+  <script src="https://dl.dropbox.com/s/mx3s198q3dmzs3i/app.js"></script>
   <script>
     $(document).ready(function() {
     var table = $('#users-table').DataTable( {
